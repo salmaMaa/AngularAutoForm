@@ -1,0 +1,146 @@
+
+<a class="nav-link" style="cursor: pointer;" (click)="onOpenAddModal()">Ajouter un cocktail <span class="sr-only">(current)</span></a>
+
+<div class="container" id="container">
+    <div class="row">
+      <div *ngFor="let cocktail of cocktails"  class="card mt-3 mr-3 col-md-5">
+          
+        <div class="card-body row">
+            <div class="col-6">
+                <a routerLink="/getIngByCock/{{cocktail.numco}}"><img src={{cocktail.image}} alt="" class="img-fluid rounded-circle w-60"></a>
+            </div>
+            <div class="col-6 card-title align-self-center mb-0">
+                <h5>Cocktail numéro : {{cocktail.numco}}</h5>
+                <p class="m-0">{{cocktail.nomco}}</p>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Date de création : {{cocktail.datecreationco}}</li>
+            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Explication : {{cocktail.explicationco}} </li>
+            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Catégorie : {{cocktail.uneCat.libellecat}} </li>
+        </ul>
+  
+        <div class="card-body">
+            <div class="float-right btn-group btn-group-sm">
+                <a (click)="onOpenModal(cocktail,'update') "  class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit" ><i class="fa fa-pencil"></i> </a>
+                <a (click)="onOpenModal(cocktail, 'delete') " class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+  
+  
+  
+  </div>
+    </div>
+     
+  
+  </div>
+  
+  
+  <!-- Add Cocktail Modal -->
+  <div class="modal fade" id="addCocktailModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addEmployeeModalLabel">Ajout d'un cocktail</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addCocktailForm ="ngForm" (ngSubmit)="addCocktail(addCocktailForm)" >
+            <div class="form-group">
+               <label for="nomco">Nom du cocktail : </label>
+               <input type="text" ngModel name="nomco" class="form-control" id="nomco" placeholder="nom" required>
+            </div>
+            <div class="form-group">
+               <label for="datecreationco">Date de création :</label>
+               <input type="date" ngModel name="datecreationco" class="form-control" id="datecreationco"  placeholder="dd-mm-yyyy" required>
+            </div>
+            <div class="form-group">
+               <label for="explicationco">Explication : </label>
+               <input type="textarea" ngModel name="explicationco" class="form-control" id="explicationco" placeholder="Expliquer la préparation" required>
+            </div>
+            <div class="form-group">
+               <label for="image">Image URL</label>
+               <input type="text" ngModel name="image" class="form-control" id="image" placeholder="Image URL" required>
+            </div>
+            <div class="form-group">
+              <label for="numcat">Catégorie : </label>
+              <input type="number" ngModel name="numcat" class="form-control" id="numcat" placeholder="numéro de la catégorie" required>
+           </div>
+            <div class="modal-footer">
+              <button  [disabled]="addCocktailForm.invalid" type="submit" class="btn btn-primary" >Ajouter</button>
+              <button type="button" id="add-cocktail-form" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    </div>
+  
+  
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateCocktailModal" tabindex="-1" role="dialog" aria-labelledby="employeeEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateEmployeeModalLabel">Modifier un cocktail : {{cocktailModif?.nomco}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #updateCocktailForm="ngForm">
+              <input type="hidden" ngModel="{{cocktailModif?.numco}}" name="numco" class="form-control" id="numco" >
+                
+                <div class="form-group">
+                   <label for="nomco">Nom du cocktail :</label>
+                   <input type="text" ngModel="{{cocktailModif?.nomco}}" name="nomco" class="form-control" id="nomco" aria-describedby="emailHelp" placeholder="Nom">
+                </div>
+                <div class="form-group">
+                 <label for="datecreationco">Date de création :</label>
+                 <input type="date" ngModel="{{cocktailModif?.datecreationco}}" name="datecreationco" class="form-control" id="datecreationco"  placeholder="dd-mm-yyyy" required>
+              </div>
+              <div class="form-group">
+                 <label for="explicationco">Explication : </label>
+                 <input type="textarea" ngModel="{{cocktailModif?.explicationco}}" name="explicationco" class="form-control" id="explicationco" placeholder="Expliquer la préparation" required>
+              </div>
+              <div class="form-group">
+                 <label for="image">Image URL</label>
+                 <input type="text" ngModel="{{cocktailModif?.image}}" name="image" class="form-control" id="image" placeholder="Image URL" required>
+              </div>
+              <div class="form-group">
+                <label for="numcat">Catégorie : </label>
+                <input type="number" ngModel="{{cocktailModif?.uneCat?.codecat}}" name="numcat" class="form-control" id="numcat" placeholder="numéro de la catégorie" required>
+             </div>
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
+                   <button (click)=" updateCocktail(updateCocktailForm.value )" data-dismiss="modal" class="btn btn-primary" >Sauvegarder</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+  </div>
+  
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteCocktailModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Supprimer un cocktail</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Etes vous sûr de vouloir supprimer le cocktail "{{cocktailDelete?.nomco}}"?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                <button  (click)="deleteCocktail(cocktailDelete?.numco! )" class="btn btn-danger" data-dismiss="modal">Oui</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  
