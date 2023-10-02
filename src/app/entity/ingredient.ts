@@ -7,4 +7,5 @@ export interface Ingredient {
     unitemesure: string;
     necessiterList: Necessiter[];
 
+    
 }

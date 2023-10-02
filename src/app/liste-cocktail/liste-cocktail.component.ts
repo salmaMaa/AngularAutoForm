@@ -116,7 +116,7 @@ export class ListeCocktailComponent {
     );
   }
 
-  //Fonction renvoyant les donnée dur formulaire deleteCocktail vers le service
+  //Fonction renvoyant les donnée du formulaire deleteCocktail vers le service
   public deleteCocktail(numco: number ): void{
     
   

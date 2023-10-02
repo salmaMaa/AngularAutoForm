@@ -1,0 +1,26 @@
+<h3> Ajouter un ingrédient au cocktail numéro {{numco}}</h3>
+
+<div class="container">
+    <form #addNecessiterForm="ngForm">
+
+        <label for="codeing">Choisissez l'ingrédient : </label>
+        <select required name="codeing" ngModel >
+            <option *ngFor="let ing of listeIng" value="{{ing.codeing}}">{{ing.noming}}</option>
+            
+        </select>
+        <input type="hidden" ngModel="{{numco}}" name="numco" class="form-control" id="numco" >
+
+        
+        <div class="form-group">
+        <label for="quantite">Quantité :</label>
+        <input required type="number" min="1" ngModel  name="quantite" class="form-control" id="qteutilisee"  >
+        </div>
+        
+        <div class="">
+        <button  (click)=" addNecessiter(addNecessiterForm.value)" type="submit" class="btn btn-primary" >Sauvegarder</button>
+        </div>
+        
+    </form>
+
+</div>
+
