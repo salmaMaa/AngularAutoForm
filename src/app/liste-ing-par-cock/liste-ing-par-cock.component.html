@@ -3,7 +3,17 @@
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <hr>
 
-<a class="nav-link" style="cursor: pointer;" routerLink="/addIngCock/{{numco}}"> Ajouter un ingrédent <span class="sr-only">(current)</span></a>
+<div class="row" style="text-align: center;">
+
+    <a class="nav-link" style="cursor: pointer; margin: 10px auto;" routerLink="/addIngCock/{{numco}}"> Ajouter un ingrédent <span class="sr-only">(current)</span></a>
+
+    <div style="margin: 10px auto;">
+    </div>
+ 
+ </div>
+ 
+
+
 
 <div class="container bootstrap snippets bootdey" id="container">
     <div class="row">
@@ -26,7 +36,7 @@
                                 <tr *ngFor="let nec of necesiters">
                                     <td>
                                     
-                                        <a href="" class="user-link">{{nec.ingredient.noming}}</a>
+                                        <a  class="user-link">{{nec.ingredient.noming}}</a>
                                     </td>
                                     <td class="text-center">{{nec.ingredient.codeing}}</td>
                                     <td class="text-center">

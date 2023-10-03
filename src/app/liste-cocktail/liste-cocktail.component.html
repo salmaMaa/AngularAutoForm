@@ -1,9 +1,19 @@
 
-<a class="nav-link" style="cursor: pointer;" (click)="onOpenAddModal()">Ajouter un cocktail <span class="sr-only">(current)</span></a>
+<div class="row" style="text-align: center;">
+
+   <a class="button " style="cursor: pointer; margin: 10px auto;" (click)="onOpenAddModal()">Ajouter un cocktail <span class="sr-only">(current)</span></a>
+
+   <form class="form-inline my-2 my-lg-0" style="margin: 10px auto;">
+      <input type="search" (ngModelChange)="cocktailRecherche(key.value)" #key ="ngModel" ngModel
+      name="key" id="searchName" class="form-control mr-sm-2" placeholder="Recherche de cocktails" required>
+   </form>
+
+</div>
+
 
 <div class="container" id="container">
-    <div class="row">
-      <div *ngFor="let cocktail of cocktails"  class="card mt-3 mr-3 col-md-5">
+    <div class="row" style="text-align: center;">
+      <div *ngFor="let cocktail of cocktails"  class="card col-md-5" style="margin: 10px auto;">
           
         <div class="card-body row">
             <div class="col-6">
@@ -15,9 +25,9 @@
             </div>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Date de création : {{cocktail.datecreationco}}</li>
-            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Explication : {{cocktail.explicationco}} </li>
-            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Catégorie : {{cocktail.uneCat.libellecat}} </li>
+            <li class="list-group-item"><i class="fa fa-calendar float-right"></i>Date de création : {{cocktail.datecreationco}}</li>
+            <li class="list-group-item"><i class="fa fa-clipboard float-right"></i>Explication : {{cocktail.explicationco}} </li>
+            <li class="list-group-item"><i class="fa fa-list float-right"></i>Catégorie : {{cocktail.uneCat.libellecat}} </li>
         </ul>
   
         <div class="card-body">
@@ -65,9 +75,12 @@
                <input type="text" ngModel name="image" class="form-control" id="image" placeholder="Image URL" required>
             </div>
             <div class="form-group">
-              <label for="numcat">Catégorie : </label>
-              <input type="number" ngModel name="numcat" class="form-control" id="numcat" placeholder="numéro de la catégorie" required>
-           </div>
+
+               <label for="numcat">Catégorie : </label>
+               <select required name="numcat" class="form-control" id="numcat"  ngModel>
+                 <option *ngFor="let cat of categories" value="{{cat.codecat}}">{{cat.libellecat}} </option>
+              </select>
+            </div>
             <div class="modal-footer">
               <button  [disabled]="addCocktailForm.invalid" type="submit" class="btn btn-primary" >Ajouter</button>
               <button type="button" id="add-cocktail-form" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -111,8 +124,11 @@
               </div>
               <div class="form-group">
                 <label for="numcat">Catégorie : </label>
-                <input type="number" ngModel="{{cocktailModif?.uneCat?.codecat}}" name="numcat" class="form-control" id="numcat" placeholder="numéro de la catégorie" required>
-             </div>
+                <select required name="numcat" class="form-control" id="numcat"  ngModel="{{cocktailModif?.uneCat?.codecat}}" >
+                  <option *ngFor="let cat of categories" value="{{cat.codecat}}">{{cat.libellecat}} </option>
+               </select>
+
+                </div>
                 <div class="modal-footer">
                    <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
                    <button (click)=" updateCocktail(updateCocktailForm.value )" data-dismiss="modal" class="btn btn-primary" >Sauvegarder</button>

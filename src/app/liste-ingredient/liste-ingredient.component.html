@@ -1,1 +1,153 @@
-<p>liste-ingredient works!</p>
+<div class="container bootstrap snippets bootdey" id="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            <thead>
+                                <tr>
+                                <th><span>Ingrédient</span></th>
+                                <th><span>Code</span></th>
+                                <th class="text-center"><span>Unité de mesure </span></th>
+                                <th><a (click)="onOpenAddModal()" class="table-link text-info">
+
+                                    <span class="fa-stack">
+                    
+                                        <i class="fa fa-square fa-stack-2x"></i>
+                                        <i class="fa fa-solid fa-plus fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    </a>
+                                </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr *ngFor="let ingredient of ingredients">
+                                    <td>
+                                    
+                                        <a class="user-link">{{ingredient.noming}}</a>
+                                    </td>
+                                    <td class="text-center">{{ingredient.codeing}}</td>
+                                    
+                                    <td class="text-center">
+                                        {{ingredient.unitemesure}}
+                                    </td>
+                                    <td style="width: 20%;">
+                                        
+                                        
+                                        <a (click)="onOpenModal(ingredient,'update') "  class="table-link text-info" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-solid fa-pencil fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a (click)="onOpenModal(ingredient, 'delete') " class="table-link danger" data-placement="top" data-toggle="tooltip" data-original-title="Delete">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-solid fa-times fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                            
+                                        </a><div class="float-right btn-group btn-group-sm">
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Add Ingrdient Modal -->
+<div class="modal fade" id="addIngredientModal" tabindex="-1" role="dialog" aria-labelledby="addIngredientModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" >Ajout d'un ingrédient</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addIngredientForm ="ngForm" (ngSubmit)="addIngredient(addIngredientForm)" >
+            <div class="form-group">
+               <label for="noming">Nom de l'ingrédient : </label>
+               <input type="text" ngModel name="noming" class="form-control" id="noming" placeholder="nom" required>
+            </div>
+            <div class="form-group">
+              <label for="unitemesure">Unité de mesure : </label>
+              <input type="text" ngModel name="unitemesure" class="form-control" id="unitemesure" placeholder="cl/gr/unité" required>
+           </div>
+            <div class="modal-footer">
+              <button  [disabled]="addIngredientForm.invalid" type="submit" class="btn btn-primary" >Ajouter</button>
+              <button type="button" id="add-ingredient-form" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    </div>
+
+
+    <!-- Edit Modal -->
+  <div class="modal fade" id="updateIngredientModal" tabindex="-1" role="dialog" aria-labelledby="employeeEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateEmployeeModalLabel">Modifier un cocktail : {{ingredientModif?.noming}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #updateIngredientForm="ngForm">
+                <input type="hidden" ngModel="{{ingredientModif?.codeing}}" name="codeing" class="form-control" id="codeing" >
+
+                <div class="form-group">
+                    <label for="noming">Nom de l'ingrédient : </label>
+                    <input type="text" ngModel="{{ingredientModif?.noming}}" name="noming" class="form-control" id="noming" placeholder="nom" required>
+                 </div>
+                 <div class="form-group">
+                   <label for="unitemesure">Unité de mesure : </label>
+                   <input type="text" ngModel="{{ingredientModif?.unitemesure}}" name="unitemesure" class="form-control" id="unitemesure" placeholder="cl/gr/unité" required>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
+                   <button (click)=" updateIngredient(updateIngredientForm.value )" data-dismiss="modal" class="btn btn-primary" >Sauvegarder</button>
+                </div>
+
+
+             </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteIngredientModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Supprimer un cocktail</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Etes vous sûr de vouloir supprimer le cocktail "{{ingredientDelete?.noming}}"?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                <button  (click)="deleteIngredient(ingredientDelete?.codeing! )" class="btn btn-danger" data-dismiss="modal">Oui</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>

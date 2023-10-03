@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Cocktail } from '../entity/cocktail';
 import { CocktailService } from '../cocktail.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Categorie } from '../entity/categorie';
 
 @Component({
   selector: 'app-liste-cocktail',
   templateUrl: './liste-cocktail.component.html',
   styleUrls: ['./liste-cocktail.component.css']
 })
-export class ListeCocktailComponent {
+export class ListeCocktailComponent implements OnInit {
 
-  public cocktails ?: Cocktail[];
+  public cocktails !: Cocktail[];
   public cocktailModif ?: Cocktail;
   public cocktailDelete ?: Cocktail;
+  public categories ?: Categorie[];
 
   constructor(private cocktailService: CocktailService) { 
 
@@ -22,6 +24,7 @@ export class ListeCocktailComponent {
 
   //Méthodes 
 
+  
   public getCocktails(): void{
     this.cocktailService.getCocktails().subscribe({
       next: (reponse : Cocktail[])=>{
@@ -45,6 +48,15 @@ export class ListeCocktailComponent {
     console.log(mode);
     button.setAttribute('data-toggle','modal');
     if(mode === 'update'){
+      this.cocktailService.getCategories().subscribe({
+        next: (reponse : Categorie[])=>{
+          this.categories = reponse;
+        },
+        error: (erreur: HttpErrorResponse)=>{
+          alert(erreur.message);
+        }
+      })
+
       this.cocktailModif = cocktail;
       button.setAttribute('data-target','#updateCocktailModal');
     }
@@ -60,15 +72,21 @@ export class ListeCocktailComponent {
 
   //Fonction qui permet d'ouvrir le modal lors d'un ajout
   public onOpenAddModal(): void{
-    
+    this.cocktailService.getCategories().subscribe({
+      next: (reponse : Categorie[])=>{
+        this.categories = reponse;
+      },
+      error: (erreur: HttpErrorResponse)=>{
+        alert(erreur.message);
+      }
+    })
     const container = document.getElementById('container');
     const button = document.createElement('button');
     button.type = "button";
     button.style.display = "none";
     button.setAttribute('data-toggle','modal');
     button.setAttribute('data-target','#addCocktailModal');
-  
-  
+
     
     container?.appendChild(button);
     button.click();
@@ -80,6 +98,9 @@ export class ListeCocktailComponent {
     
     document.getElementById("add-cocktail-form")?.click();
     console.log(addCocktailForm.value);
+
+    
+
     this.cocktailService.addCocktail(addCocktailForm.value).subscribe({
       next: (reponse: Cocktail)=>{
         console.log(reponse);
@@ -134,6 +155,20 @@ export class ListeCocktailComponent {
     );
   }
 
+  //recherche de cocktails 
+  public cocktailRecherche(key : string): void{
+    const resultat: Cocktail[] = [];
+    for(const cocktail of this.cocktails){
+      if(cocktail.nomco.toLowerCase().indexOf(key.toLowerCase())!==-1 
+      || cocktail.datecreationco.toLowerCase().indexOf(key.toLowerCase())!==-1){
+        resultat.push(cocktail);
+      }
+    }
+    this.cocktails = resultat;
+    if( !key){
+      this.getCocktails();
+    }
+  }
 
   ngOnInit(): void {
     this.getCocktails();
